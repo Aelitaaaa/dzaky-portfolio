@@ -2,7 +2,7 @@
 
 Personal portfolio milik **Muhamad Dzaky Putra Fardian** yang menampilkan proyek, teknologi, aktivitas pengembangan, serta perjalanan belajar dalam satu website interaktif.
 
-Website ini dibangun dengan fokus pada pengalaman pengguna, animasi yang halus, tampilan editorial, responsivitas, serta interaksi visual menggunakan React, Anime.js, GSAP, AOS, Three.js, Motion, dan Canvas.
+Website ini dibangun dengan fokus pada pengalaman pengguna, animasi yang halus, tampilan editorial, responsivitas, serta interaksi visual menggunakan React, Anime.js, GSAP, AOS, Motion, dan Canvas.
 
 ---
 
@@ -28,7 +28,6 @@ Desain menggunakan pendekatan minimal, editorial, dan interaktif dengan kombinas
 | GSAP | Timeline pembukaan chapter dan kemunculan hero |
 | Anime.js | Perpindahan konten pada kartu catatan |
 | AOS | Kemunculan bagian halaman saat scroll |
-| Three.js | Panel orbit 3D interaktif dengan WebGL |
 | Lenis | Smooth scrolling |
 | HTML5 Canvas | Efek visual interaktif |
 | Lucide Icons | Ikon antarmuka |
@@ -45,11 +44,11 @@ Intro tipografi **Code & Stories** diputar sekali per sesi dan dapat dilewati de
 
 Kartu **Ide / Kode / Cerita**, halaman detail teknologi, dan kartu teknologi menggunakan kertas polos tanpa pola garis di belakang teks. Tab catatan mendukung keyboard Arrow Left, Arrow Right, Home, dan End.
 
-### Ideas in Orbit
+### Catatan Developer
 
-Panel hero menyediakan dua pilihan: **Orbit** untuk eksperimen 3D dan **Tinta** untuk interaksi Canvas. Three.js dimuat secara terpisah saat animasi aktif; rendering berhenti ketika panel tidak terlihat atau tab browser tidak aktif. Geometry, material, renderer, observer, dan listener dibersihkan saat panel dilepas.
+Panel hero menyediakan dua pilihan: **Proses** untuk sketsa antarmuka dan **Tinta** untuk interaksi Canvas. Panel Proses menggunakan kertas polos dan tiga kontrol **Rancang / Bangun / Rapikan**. Setiap tahap memperbarui sketsa portofolio beserta catatan singkat, dari rancangan awal sampai tampilan selesai.
 
-Jika WebGL atau modul visual tidak tersedia, halaman tetap menampilkan fallback tipografi. Kontrol **Putar idenya** menambahkan putaran singkat pada bentuk 3D.
+Kontrol dapat dipakai dengan keyboard dan tetap berfungsi dalam mode tenang. Tautan **Lihat hasilnya di proyek** mengarahkan pengunjung ke karya yang ada. Animasi Motion digunakan untuk pergantian panel dan sentuhan akhir pada sketsa, tanpa membutuhkan WebGL.
 
 ### Focus & Workflow
 
@@ -336,8 +335,8 @@ Setiap engine memiliki area sendiri agar transform tidak saling bertabrakan:
 | `src/components/OpeningIntro.tsx` | Timeline intro GSAP dan aksesibilitas intro |
 | `src/hooks/usePortfolioAnimations.ts` | AOS untuk section dan GSAP untuk hero |
 | `src/components/MangaDetails.tsx` | Anime.js untuk catatan, Motion untuk magnet dan bookmark |
-| `src/components/HeroScene.tsx` | Pilihan Orbit / Tinta dan transisi Motion |
-| `src/components/OrbitStage.tsx` | Three.js, lifecycle WebGL, dan fallback |
+| `src/components/HeroScene.tsx` | Pilihan Proses / Tinta dan transisi Motion |
+| `src/components/BuildStage.tsx` | Sketsa antarmuka Rancang / Bangun / Rapikan |
 
 Jalankan `npm run lint` dan `npm run build` sebelum menerbitkan perubahan. Periksa intro, tab catatan, pergantian panel, filter proyek, dialog, tema, serta reduced motion pada desktop dan mobile.
 
