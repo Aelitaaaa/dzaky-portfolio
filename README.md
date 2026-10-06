@@ -44,11 +44,13 @@ Intro tipografi **Code & Stories** diputar sekali per sesi dan dapat dilewati de
 
 Kartu **Ide / Kode / Cerita**, halaman detail teknologi, dan kartu teknologi menggunakan kertas polos tanpa pola garis di belakang teks. Tab catatan mendukung keyboard Arrow Left, Arrow Right, Home, dan End.
 
-### Catatan Developer
+### Mini Playground
 
-Panel hero menyediakan dua pilihan: **Proses** untuk sketsa antarmuka dan **Tinta** untuk interaksi Canvas. Panel Proses menggunakan kertas polos dan tiga kontrol **Rancang / Bangun / Rapikan**. Setiap tahap memperbarui sketsa portofolio beserta catatan singkat, dari rancangan awal sampai tampilan selesai.
+Panel hero menyediakan dua pilihan: **Main** untuk mini game **Susun UI** dan **Tinta** untuk interaksi Canvas. Dalam permainan, pengunjung memasangkan empat potongan (logo, menu, judul, dan tombol) dengan kotaknya untuk membangun halaman kecil. Potongan diacak, langkah dihitung, dan penempatan yang salah memberikan petunjuk. Setelah selesai, tombol **Lagi** membuka desain berikutnya: portofolio, studio kreatif, atau kedai kopi.
 
-Kontrol dapat dipakai dengan keyboard dan tetap berfungsi dalam mode tenang. Tautan **Lihat hasilnya di proyek** mengarahkan pengunjung ke karya yang ada. Animasi Motion digunakan untuk pergantian panel dan sentuhan akhir pada sketsa, tanpa membutuhkan WebGL.
+Potongan bisa di-drag dengan mouse atau sentuhan, atau dipilih lalu dipasangkan dengan tap dan keyboard. Tombol **Ulangi** mereset puzzle, dan **Escape** melepas pilihan. Permainan tetap berfungsi dalam mode tenang; animasi feedback dan stempel penyelesaian mengikuti preferensi gerak. Motion menangani drag dan pergantian panel, tanpa membutuhkan WebGL.
+
+Scrollbar dibuat tipis dengan thumb merah berbentuk penanda, track kertas polos, serta warna yang mengikuti tema terang dan gelap. Firefox memakai scrollbar tipis native; browser dengan dukungan WebKit menggunakan styling khusus.
 
 ### Focus & Workflow
 
@@ -335,8 +337,8 @@ Setiap engine memiliki area sendiri agar transform tidak saling bertabrakan:
 | `src/components/OpeningIntro.tsx` | Timeline intro GSAP dan aksesibilitas intro |
 | `src/hooks/usePortfolioAnimations.ts` | AOS untuk section dan GSAP untuk hero |
 | `src/components/MangaDetails.tsx` | Anime.js untuk catatan, Motion untuk magnet dan bookmark |
-| `src/components/HeroScene.tsx` | Pilihan Proses / Tinta dan transisi Motion |
-| `src/components/BuildStage.tsx` | Sketsa antarmuka Rancang / Bangun / Rapikan |
+| `src/components/HeroScene.tsx` | Pilihan Main / Tinta dan transisi Motion |
+| `src/components/BuildStage.tsx` | Mini game Susun UI: drag, tap, keyboard, dan tiga desain |
 
 Jalankan `npm run lint` dan `npm run build` sebelum menerbitkan perubahan. Periksa intro, tab catatan, pergantian panel, filter proyek, dialog, tema, serta reduced motion pada desktop dan mobile.
 
