@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
 
 export function PhotoPanel({ enabled }: { enabled: boolean }) {
   const [comic, setComic] = useState(true);

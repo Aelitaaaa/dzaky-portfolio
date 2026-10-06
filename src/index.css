@@ -1214,41 +1214,6 @@ dialog::backdrop {
   pointer-events: none;
   z-index: 80;
 }
-.intro {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: var(--paper);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-image: radial-gradient(#b5a89d40 0.7px, transparent 0.7px);
-  background-size: 5px 5px;
-}
-.intro-mark {
-  font-size: 95px;
-  font-weight: 900;
-  letter-spacing: -9px;
-  border-bottom: 3px solid var(--ink);
-  line-height: 1.3;
-}
-.intro-mark span {
-  color: #ac201c;
-}
-.intro p {
-  font-size: 9px;
-  letter-spacing: 2px;
-  font-family: "JetBrains Mono", monospace;
-  margin: 25px 0;
-}
-.intro button {
-  border: 0;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  font-size: 11px;
-}
 .skip-link {
   position: fixed;
   left: 20px;
@@ -1746,16 +1711,17 @@ html { scrollbar-width: auto; scrollbar-color: #ac201c #e7e2d8; scrollbar-gutter
 .book-percent { font: bold 12px monospace; text-align: center; }
 .book-percent small { display: block; font-size: 8px; margin-top: 4px; color: var(--muted); }
 .magnetic-note { position: relative; max-width: 430px; margin-top: 26px; }
-.manga-notebook { position: relative; border: 1.5px solid var(--ink); background: var(--surface); box-shadow: 4px 4px 0 var(--line), 5px 5px 0 var(--ink); transform: rotate(-1deg); padding-left: 23px; }
-.notebook-binding { position: absolute; left: 5px; top: 48px; bottom: 15px; writing-mode: vertical-rl; font: 15px monospace; letter-spacing: 9px; color: var(--muted); border-right: 1px solid var(--line); padding-right: 5px; z-index: 1; }
+.manga-notebook { position: relative; border: 1.5px solid var(--ink); background: var(--surface); box-shadow: 4px 4px 0 var(--line), 5px 5px 0 var(--ink); transform: rotate(-1deg); }
 .notebook-tabs { position: relative; z-index: 2; display: flex; border-bottom: 1px solid var(--ink); background: var(--surface); }
-.notebook-tabs button { flex: 1; padding: 9px 8px; background: transparent; border: 0; border-right: 1px solid var(--line); font: 700 11px monospace; }
-.notebook-tabs button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
-.notebook-page { padding: 14px 16px; background: repeating-linear-gradient(0deg, transparent 0 24px, var(--line) 24px 25px); }
-.notebook-page small { font: 9px monospace; color: var(--muted); }
-.notebook-page h3 { font-size: 15px; margin: 8px 0 5px; }
-.notebook-page p { font-size: 12px; line-height: 1.7; }
-.notebook-page > span { display: block; text-align: right; margin-top: 9px; color: #ac201c; font: 700 11px monospace; }
+.notebook-tabs button { flex: 1; min-height: 44px; padding: 10px 8px; background: transparent; border: 0; border-right: 1px solid var(--line); font: 700 12px "JetBrains Mono", monospace; }
+.notebook-tabs button:last-child { border-right: 0; }
+.notebook-tabs button > span { margin-right: 8px; font-size: 10px; opacity: .6; }
+.notebook-tabs button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+.notebook-page { min-height: 178px; padding: 22px 24px 18px; background: var(--surface); }
+.notebook-page small { font: 10px "JetBrains Mono", monospace; color: var(--muted); }
+.notebook-page h3 { font-size: 18px; line-height: 1.45; margin: 12px 0 8px; letter-spacing: -.4px; }
+.notebook-page p { font-size: 14px; line-height: 1.75; color: var(--muted); }
+.notebook-page > span { display: block; text-align: right; margin-top: 14px; color: #ac201c; font: 700 11px "JetBrains Mono", monospace; }
 .chapter-break { overflow: hidden; border-block: 1px solid var(--ink); padding: 13px 0; background: var(--surface); transform: rotate(-1deg); margin: 25px 0; }
 .chapter-break > div { display: flex; width: max-content; }
 .chapter-break span { font: 800 15px monospace; white-space: nowrap; padding-right: 30px; letter-spacing: 2px; }
@@ -1771,7 +1737,7 @@ html { scrollbar-width: auto; scrollbar-color: #ac201c #e7e2d8; scrollbar-gutter
 [data-theme="dark"] .notebook-page > span, [data-theme="dark"] .chapter-break b { color: #ef7567; }
 @media (min-width: 1350px) { .hero { min-height: 850px; } }
 @media (max-width: 1349px) { .bookmarks { display: none; } }
-@media (max-width: 600px) { .magnetic-note { max-width: 100%; margin: 22px 0; } .notebook-page p { font-size: 13px; } }
+@media (max-width: 600px) { .magnetic-note { max-width: 100%; margin: 22px 0; } .notebook-page { padding: 20px; } }
 @media (prefers-reduced-motion: reduce) { .mini-panels > div:hover { transform: none; } }
 
 /* Chapter 03 — interactive volumes, built entirely with HTML/CSS/Motion. */
@@ -1802,7 +1768,7 @@ html { scrollbar-width: auto; scrollbar-color: #ac201c #e7e2d8; scrollbar-gutter
 .shelf-caption { display: flex; justify-content: space-between; margin: 13px 2px 27px; color: var(--muted); font: 9px monospace; letter-spacing: 1px; }
 .open-notebook { position: relative; border-radius: 3px 12px 12px 3px; box-shadow: 3px 4px 0 var(--paper), 4px 5px 0 var(--line), 6px 7px 0 var(--ink); background: var(--surface); }
 .open-notebook .tech-list { border-right: 3px double var(--line); background: linear-gradient(90deg, transparent 92%, #00000008); }
-.open-notebook .tech-inspector { background: repeating-linear-gradient(0deg, transparent 0 31px, var(--line) 31px 32px); }
+.open-notebook .tech-inspector { background: var(--surface); }
 @media (max-width: 800px) { .tech-bookshelf { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 55px 25px; padding: 30px 15px 48px; } .tech-book { height: 245px; } .book-cover strong { font-size: 23px; } }
 @media (max-width: 380px) { .tech-bookshelf { gap: 50px 17px; padding-inline: 5px; } .book-cover { padding-left: 17px; padding-right: 9px; } .book-cover strong { font-size: 19px; } .cover-footer { font-size: 8px; } }
 [data-motion="off"] .tech-book .book-cover, [data-motion="off"] .tech-book .book-page-fan { transform: none; }
@@ -1825,7 +1791,7 @@ html { scrollbar-width: auto; scrollbar-color: #ac201c #e7e2d8; scrollbar-gutter
 .float-book-ribbon { position: absolute; bottom: -16px; right: 24px; width: 14px; height: 26px; background: #d4b475; clip-path: polygon(0 0,100% 0,100% 100%,50% 80%,0 100%); }
 .is-current .float-book-ribbon { background: #bf332a; }
 .float-book-notes { position: absolute; inset: 0; pointer-events: none; }
-.float-book-note { position: absolute; top: 0; left: calc(50% - 49px); width: 98px; height: 122px; padding: 12px 9px; border: 1px solid #262522; border-radius: 5px; background: repeating-linear-gradient(0deg, transparent 0 20px, #0000000a 20px 21px), var(--item-color); color: var(--item-ink); box-shadow: 2px 5px 9px #0002; display: flex; flex-direction: column; justify-content: space-between; text-align: left; transform-origin: bottom center; }
+.float-book-note { position: absolute; top: 0; left: calc(50% - 49px); width: 98px; height: 122px; padding: 12px 9px; border: 1px solid #262522; border-radius: 5px; background: var(--item-color); color: var(--item-ink); box-shadow: 2px 5px 9px #0002; display: flex; flex-direction: column; justify-content: space-between; text-align: left; transform-origin: bottom center; }
 .float-book-note small { font: 8px monospace; border-bottom: 1px solid #bbb5a9; padding-bottom: 5px; }
 .float-book-note strong { font-size: 13px; overflow-wrap: anywhere; line-height: 1.3; }
 .float-book-note > span { font: 8px monospace; }
@@ -1833,3 +1799,135 @@ html { scrollbar-width: auto; scrollbar-color: #ac201c #e7e2d8; scrollbar-gutter
 .float-book-hint { position: absolute; bottom: 0; font: 10px monospace; color: var(--muted); white-space: nowrap; }
 @media (max-width: 1100px) { .float-bookshelf { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px 45px; padding-inline: 40px; } }
 @media (max-width: 580px) { .float-bookshelf { grid-template-columns: minmax(0,1fr); padding-inline: 32px; gap: 4px; } .book-float { padding-top: 150px; } }
+
+/* AOS owns section reveals; other engines animate separate elements. */
+html:not([data-aos-ready="true"]) [data-aos],
+[data-motion="off"] [data-aos] { opacity: 1 !important; transform: none !important; }
+
+.hero-description { font-size: 16px; max-width: 440px; line-height: 1.8; }
+.hero h1 { font-weight: 800; letter-spacing: -.03em; }
+.name-outline { letter-spacing: -.015em; font-kerning: normal; }
+.hello { font-size: 14px; }
+.hero .button { font-size: 14px; min-height: 48px; }
+.hero-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 430px; margin: 26px 0 0; }
+.hero-facts div + div { border-left: 1px solid var(--line); padding-left: 16px; }
+.hero-facts dt { color: var(--muted); font: 10px "JetBrains Mono", monospace; letter-spacing: .5px; }
+.hero-facts dd { margin: 8px 0 0; font-size: 14px; font-weight: 700; }
+.hero-footnote { align-items: center; flex-wrap: wrap; justify-content: space-between; max-width: 430px; font-size: 10px; gap: 14px; margin-top: 24px; }
+.hero-footnote button { display: inline-flex; gap: 6px; align-items: center; border: 0; padding: 8px 0; font: inherit; color: var(--muted); }
+.hero-footnote button:hover { color: var(--ink); }
+.hero-art .speech-bubble { top: -82px; left: -38px; padding: 16px 20px; font-size: 12px; }
+.about-story > p, .section-description, .section-intro > p, .project-info p, .timeline-copy p, .contact-section p { font-size: 16px; }
+.tech-inspector p, .dialog-inner p, .dialog-inner li { font-size: 16px; }
+.project-info h3 { font-size: 22px; }
+.project-info { padding: 24px; }
+
+.hero-scene { height: 100%; display: flex; flex-direction: column; background: #faf8f1; color: #292724; }
+.scene-tabs { display: flex; flex-shrink: 0; position: relative; z-index: 4; border-bottom: 1px solid #292724; }
+.scene-tabs button { width: 50%; min-height: 44px; border: 0; font: 600 11px "JetBrains Mono", monospace; color: #292724; }
+.scene-tabs button + button { border-left: 1px solid #292724; }
+.scene-tabs button[aria-pressed="true"] { background: #292724; color: #faf8f1; }
+.scene-content { position: relative; flex: 1; min-height: 0; }
+.scene-content .ink-stage { height: 100%; }
+.orbit-stage { height: 100%; position: relative; overflow: hidden; }
+.orbit-copy { position: absolute; top: 25px; left: 27px; right: 20px; z-index: 2; pointer-events: none; }
+.orbit-copy > span { display: block; font: 9px "JetBrains Mono", monospace; letter-spacing: .7px; margin-bottom: 18px; }
+.orbit-copy > strong { display: block; font-size: clamp(44px, 4.3vw, 62px); line-height: .97; letter-spacing: -3.5px; font-weight: 800; }
+.orbit-copy em { font-style: normal; color: transparent; -webkit-text-stroke: 1.2px #292724; }
+.orbit-canvas, .orbit-placeholder { position: absolute; inset: 0; }
+.orbit-canvas canvas { display: block; width: 100%; height: 100%; }
+.orbit-fallback, .orbit-placeholder > span { position: absolute; color: #b42b24; top: 52%; left: 55%; transform: translate(-50%, -10%); font-size: 145px; line-height: 1; }
+.orbit-canvas[data-rendered="true"] .orbit-fallback { display: none; }
+.orbit-control { display: inline-flex; align-items: center; gap: 8px; position: absolute; bottom: 54px; left: 26px; padding: 10px 12px; min-height: 40px; color: #292724; background: #faf8f1; border: 1px solid #292724; z-index: 3; font: 11px "JetBrains Mono", monospace; }
+.orbit-control:hover { background: #292724; color: #faf8f1; }
+.orbit-control:disabled { opacity: .6; }
+.orbit-canvas:not([data-rendered]) + .orbit-control:not(:disabled) { display: none; }
+.orbit-note { position: absolute; bottom: 17px; left: 27px; right: 24px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #cdc7bd; padding-top: 10px; font: 9px "JetBrains Mono", monospace; pointer-events: none; }
+.orbit-note > span:last-child { color: #b42b24; font-size: 20px; }
+
+.workflow-note { margin-top: 52px; padding-top: 28px; border-top: 1px solid var(--line); }
+.workflow-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 24px; }
+.workflow-heading .eyebrow { color: var(--muted); font-size: 10px; }
+.workflow-heading h3 { font-size: 24px; letter-spacing: -.7px; }
+.workflow-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.workflow-grid > div { border-left: 2px solid var(--accent); padding-left: 18px; }
+.workflow-grid > div > span { font: 11px "JetBrains Mono", monospace; color: var(--muted); }
+.workflow-grid h4 { font-size: 17px; letter-spacing: -.3px; margin: 12px 0 8px; font-weight: 700; }
+.workflow-grid p { font-size: 14px; line-height: 1.8; color: var(--muted); }
+
+.opening-intro { position: fixed; inset: 0; z-index: 120; background: #242321; color: #faf8f1; display: flex; flex-direction: column; justify-content: space-between; padding: 32px 44px; overflow: hidden; }
+.opening-top, .opening-bottom { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.opening-brand { font-size: 30px; font-weight: 800; letter-spacing: -2px; }
+.opening-brand > span { color: #e64539; margin-left: 4px; }
+.opening-edition, .opening-bottom { font: 10px "JetBrains Mono", monospace; letter-spacing: 1px; color: #bfb9af; }
+.opening-top button { display: inline-flex; align-items: center; gap: 10px; color: #faf8f1; border: 1px solid #686259; padding: 12px 16px; font-size: 12px; }
+.opening-top button:hover { background: #faf8f1; color: #242321; }
+.opening-top button:focus-visible { outline-color: #e64539; }
+.opening-center { position: relative; width: min(100%, 1080px); align-self: center; padding: 40px 0; }
+.intro-kicker { font: 11px "JetBrains Mono", monospace; letter-spacing: 2px; color: #bfb9af; margin-bottom: 22px; }
+.opening-title { font-size: clamp(70px, 11.5vw, 160px); line-height: 1.03; letter-spacing: -.01em; font-weight: 800; position: relative; z-index: 2; }
+.intro-line { display: block; overflow: hidden; padding-bottom: .025em; }
+.intro-word { display: inline-block; }
+.intro-line.outline { color: transparent; -webkit-text-stroke: 1px #faf8f1; }
+.opening-period { color: #e64539; -webkit-text-stroke: 0; }
+.intro-star { position: absolute; right: 3%; top: 3%; color: #e64539; font-size: clamp(100px, 15vw, 210px); line-height: 1; }
+.intro-caption { font-size: 15px; margin-top: 26px; color: #bfb9af; }
+.intro-track { flex: 1; max-width: 260px; height: 2px; background: #514b43; overflow: hidden; }
+.intro-track > span { display: block; width: 100%; height: 100%; background: #e64539; transform-origin: left; }
+
+[data-theme="dark"] .hero-footnote button { color: var(--muted); }
+[data-theme="dark"] .accent { color: #ef7567; }
+@media (max-width: 1050px) {
+  .hero-facts { gap: 10px; }
+  .hero-facts div + div { padding-left: 10px; }
+  .hero-facts dt { font-size: 9px; }
+  .hero-facts dd { font-size: 13px; }
+  .hero-art { height: 510px; }
+  .orbit-copy > strong { font-size: 50px; }
+  .opening-edition { display: none; }
+}
+@media (max-width: 760px) {
+  .hero { gap: 85px; }
+  .hero-art .speech-bubble { left: -18px; }
+  .hero-description { font-size: 16px; }
+  .hero-art { max-width: 380px; height: 510px; width: calc(100% - 35px); }
+  .hero-eyebrow { font-size: 10px; }
+  .hello { font-size: 13px; }
+  .hero-facts { margin-top: 24px; }
+  .hero .button { font-size: 13px; }
+  .hero-footnote { font-size: 9px; }
+  .workflow-heading { display: block; }
+  .workflow-heading h3 { margin-top: 10px; }
+  .workflow-grid { grid-template-columns: 1fr; gap: 24px; }
+  .opening-intro { padding: 22px; }
+  .opening-center { padding-block: 36px; }
+  .opening-title { font-size: clamp(48px, 12.8vw, 100px); }
+  .intro-star { right: 0; top: -24px; font-size: 90px; }
+  .intro-kicker { font-size: 9px; letter-spacing: .8px; }
+  .intro-caption { font-size: 13px; max-width: 240px; }
+  .opening-bottom { flex-wrap: wrap; gap: 16px; font-size: 8px; }
+  .intro-track { order: -1; flex-basis: 100%; max-width: none; }
+}
+@media (max-width: 380px) {
+  .hero h1 { font-size: clamp(60px, 20vw, 78px); letter-spacing: -.03em; }
+  .hero-facts dt { font-size: 8px; }
+  .hero-facts dd { font-size: 12px; }
+  .notebook-tabs button > span { display: none; }
+  .notebook-page h3 { font-size: 17px; }
+  .orbit-copy { left: 20px; }
+  .orbit-copy > span { font-size: 8px; }
+  .orbit-copy > strong { font-size: 45px; }
+  .opening-top { gap: 14px; }
+  .opening-top button { padding: 10px; font-size: 11px; }
+}
+@media (max-height: 500px) and (min-width: 600px) {
+  .opening-intro { padding: 18px 32px; }
+  .opening-center { padding: 10px 0; }
+  .opening-title { font-size: clamp(55px, 14vh, 90px); }
+  .intro-kicker { margin-bottom: 8px; }
+  .intro-caption { margin-top: 8px; }
+  .intro-star { font-size: 95px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-aos] { opacity: 1 !important; transform: none !important; }
+}

@@ -1,5 +1,5 @@
 import { useId, useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/react";
 import type { CSSProperties } from "react";
 
 type BookFloatProps = {
