@@ -1,14 +1,16 @@
 import BookFloat from "./components/BookFloat";
 import { Bookmarks, Notebook, ChapterBreak } from "./components/MangaDetails";
 import { PhotoPanel } from "./components/PhotoPanel";
-import { InkStage } from "./components/InkStage";
+import { HeroScene } from "./components/HeroScene";
+import { OpeningIntro } from "./components/OpeningIntro";
+import { usePortfolioAnimations } from "./hooks/usePortfolioAnimations";
 import {
   useLenisSmoothScroll,
   stopLenisScroll,
   startLenisScroll,
 } from "./hooks/useLenisSmoothScroll";
 import { SiGithub as Github } from "@icons-pack/react-simple-icons";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import {
   AnimatePresence,
@@ -18,7 +20,7 @@ import {
   useScroll,
   useSpring,
   useTransform,
-} from "framer-motion";
+} from "motion/react";
 import {
   ArrowDown,
   ArrowUpRight,
@@ -53,17 +55,10 @@ function Reveal({
   children: ReactNode;
   className?: string;
 }) {
-  const reduced = useReducedMotion();
   return (
-    <motion.div
-      className={className}
-      initial={reduced ? false : { opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12 }}
-      transition={{ duration: 0.55 }}
-    >
+    <div className={className} data-aos="fade-up">
       {children}
-    </motion.div>
+    </div>
   );
 }
 function Heading({
@@ -446,7 +441,7 @@ export default function App() {
   const reduced = useReducedMotion();
   const [intro, setIntro] = useState(() => {
       try {
-        return !sessionStorage.getItem("manga-intro");
+        return !sessionStorage.getItem("manga-intro") && !window.matchMedia("(prefers-reduced-motion: reduce)").matches && localStorage.getItem("manga-motion") !== "off";
       } catch {
         return true;
       }
@@ -459,7 +454,9 @@ export default function App() {
         return false;
       }
     }),
-    [motionOn, setMotionOn] = useState(true),
+    [motionOn, setMotionOn] = useState(() => {
+      try { return localStorage.getItem("manga-motion") !== "off"; } catch { return true; }
+    }),
     [filter, setFilter] = useState("Semua"),
     [project, setProject] = useState<MangaProject | null>(null),
     [inked, setInked] = useState(false),
@@ -469,32 +466,24 @@ export default function App() {
   const effects = motionOn && !reduced;
   useLenisSmoothScroll(effects);
   useEffect(() => {
-    if (project) stopLenisScroll();
+    if (project || intro) stopLenisScroll();
     else startLenisScroll();
-  }, [project, effects]);
+  }, [project, intro, effects]);
   const [reset, setReset] = useState(0),
     [activeSection, setActiveSection] = useState("");
   const hero = useRef<HTMLDivElement>(null),
     copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  usePortfolioAnimations(hero, effects && !intro);
   const { scrollYProgress } = useScroll(),
     progress = useSpring(scrollYProgress, { stiffness: 120, damping: 25 }),
     heroY = useTransform(scrollYProgress, [0, 0.2], [0, 70]);
-  useEffect(() => {
-    const timer = setTimeout(
-      () => {
-        setIntro(false);
-        try {
-          sessionStorage.setItem("manga-intro", "1");
-        } catch {
-          /* storage optional */
-        }
-      },
-      effects ? 1600 : 100,
-    );
-    return () => clearTimeout(timer);
-  }, [effects]);
+  const finishIntro = useCallback(() => {
+    setIntro(false);
+    try { sessionStorage.setItem("manga-intro", "1"); } catch { /* storage optional */ }
+  }, []);
   useEffect(() => {
     document.documentElement.dataset.theme = dark ? "dark" : "light";
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", dark ? "#222124" : "#f7f4ed");
     try {
       localStorage.setItem("manga-theme", dark ? "dark" : "light");
     } catch {
@@ -503,7 +492,8 @@ export default function App() {
   }, [dark]);
   useEffect(() => {
     document.documentElement.dataset.motion = effects ? "on" : "off";
-  }, [effects]);
+    try { localStorage.setItem("manga-motion", motionOn ? "on" : "off"); } catch { /* storage optional */ }
+  }, [effects, motionOn]);
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -536,31 +526,16 @@ export default function App() {
   }
   return (
     <MotionConfig reducedMotion={effects ? "never" : "always"}>
-      <div className="site">
+      <AnimatePresence>
+        {intro && <OpeningIntro enabled={effects} onComplete={finishIntro} />}
+      </AnimatePresence>
+      <div className="site" inert={intro || undefined}>
         <a className="skip-link" href="#main">
           Langsung ke konten
         </a>
-        <InkCanvas enabled={effects} />
+        <InkCanvas enabled={effects && !intro} />
         {!project && <Bookmarks active={activeSection} />}
         <motion.div className="reading-progress" style={{ scaleX: progress }} />
-        <AnimatePresence>
-          {intro && (
-            <motion.div
-              className="intro"
-              initial={{ opacity: 1 }}
-              exit={{ opacity: 0, y: effects ? "-100%" : 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="intro-mark">
-                DP<span>✦</span>
-              </div>
-              <p>MEMBUKA CHAPTER PERTAMA…</p>
-              <button onClick={() => setIntro(false)}>
-                Lewati intro <ArrowUpRight size={15} />
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
         <header className="header">
           <a href="#home" className="brand" aria-label="Dzaky Putra, beranda">
             dzaky<span>✦</span>
@@ -614,11 +589,11 @@ export default function App() {
         <main id="main">
           <section id="home" className="hero section-wrap" ref={hero}>
             <div className="hero-copy">
-              <div className="eyebrow hero-eyebrow">
+              <div className="eyebrow hero-eyebrow" data-hero-reveal>
                 <span className="status-dot" /> PERSONAL PORTFOLIO · VOL. 01
               </div>
-              <p className="hello">Halo, selamat datang di cerita saya.</p>
-              <h1 aria-label="Dzaky Putra.">
+              <p className="hello" data-hero-reveal>Developer, pembelajar, dan pengumpul ide.</p>
+              <h1 aria-label="Dzaky Putra." data-hero-reveal>
                 <span className="name-line">
                   {Array.from("DZAKY").map((c, i) => (
                     <motion.span
@@ -645,15 +620,14 @@ export default function App() {
                   PUTRA<span className="accent">.</span>
                 </span>
               </h1>
-              <div className="role-line">
+              <div className="role-line" data-hero-reveal>
                 <span /> {profile.role} <span />
               </div>
-              <p className="hero-description">
-                Merangkai kode, membangun ide,
-                <br />
-                dan menulis cerita lewat karya digital.
+              <p className="hero-description" data-hero-reveal>
+                Dari ide sederhana ke aplikasi yang berguna.
+                Saya merangkai antarmuka, alur, dan data—dengan sedikit rasa penasaran di setiap baris kode.
               </p>
-              <div className="button-row">
+              <div className="button-row" data-hero-reveal>
                 <a className="button primary" href="#projects">
                   Jelajahi karya <ArrowUpRight size={18} />
                 </a>
@@ -666,10 +640,15 @@ export default function App() {
                   </a>
                 )}
               </div>
+              <dl className="hero-facts" data-hero-reveal>
+                <div><dt>KARYA PILIHAN</dt><dd>{String(projects.length).padStart(2, "0")} proyek</dd></div>
+                <div><dt>FOKUS</dt><dd>Aplikasi web</dd></div>
+                <div><dt>SAAT INI</dt><dd>Mahasiswa TI</dd></div>
+              </dl>
               <Notebook enabled={effects} />
               <div className="hero-footnote">
                 <span>BASED IN INDONESIA</span>
-                <span>CODE WITH A LITTLE SOUL ♡</span>
+                <button onClick={() => setIntro(true)}><RotateCcw size={12} /> Putar ulang intro</button>
               </div>
             </div>
             <motion.div
@@ -678,7 +657,7 @@ export default function App() {
             >
               <div className="art-offset" />
               <div className="art-frame">
-                <InkStage enabled={effects} />
+                <HeroScene enabled={effects && !intro} />
               </div>
               <motion.div
                 className="speech-bubble"
@@ -898,6 +877,14 @@ export default function App() {
               >
                 Lihat semua repository di GitHub <ArrowUpRight size={16} />
               </a>
+              <Reveal className="workflow-note">
+                <div className="workflow-heading"><span className="eyebrow">FROM IDEA TO SOMETHING USEFUL</span><h3>Cara saya membangun.</h3></div>
+                <div className="workflow-grid">
+                  <div><span>01 / PAHAMI</span><h4>Mulai dari kebutuhan.</h4><p>Kenali siapa yang memakai aplikasi dan masalah yang ingin diselesaikan.</p></div>
+                  <div><span>02 / BANGUN</span><h4>Susun alurnya.</h4><p>Hubungkan antarmuka, logika, dan data agar setiap bagian bekerja bersama.</p></div>
+                  <div><span>03 / PERBAIKI</span><h4>Coba, lalu rapikan.</h4><p>Periksa tampilan di berbagai layar dan perbaiki pengalaman pemakaiannya.</p></div>
+                </div>
+              </Reveal>
             </div>
           </section>
           <ChapterBreak enabled={effects} />
